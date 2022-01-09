@@ -43,8 +43,8 @@ export default class PaymentGatewayCreditCard {
             const hashedCreditCardNumber = bcrypt.hashSync(validate.value.credit_card_number, Number(process.env.BCRYPT_SALT));
             const hashedCreditCardCVV = bcrypt.hashSync(validate.value.credit_card_cvv, Number(process.env.BCRYPT_SALT));
 
-            //const paymentInfo = new PaymentInfo();
-            //await paymentInfo.insertCreditCardInfo('INSERT INTO payment_info(card_number, cvv, name, card_expiry) VALUES($1, $2, $3, $4)', [hashedCreditCardNumber, hashedCreditCardCVV, validate.value.credit_card_holder_name, validate.value.credit_card_expiration_date]);
+            const paymentInfo = new PaymentInfo();
+            await paymentInfo.insertCreditCardInfo('INSERT INTO payment_info(card_number, cvv, name, card_expiry) VALUES($1, $2, $3, $4)', [hashedCreditCardNumber, hashedCreditCardCVV, validate.value.credit_card_holder_name, validate.value.credit_card_expiration_date]);
 
             return res.status(200).send({
                 message: 'Credit card info added successfully !',
