@@ -1,0 +1,11 @@
+node_modules
+build
+
+
+# IDE
+.vscode/
+
+
+# Environemnt File
+.env
+.env.production

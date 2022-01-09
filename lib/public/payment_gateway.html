@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Gateway</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Pay Now</h1>
+  </header>
+  <form id="payment" action="/api/v1/payment-gateway/credit-card">
+    <label for="credit_card_holder_name">Name on Card</label>
+    <input type="text" id="credit_card_holder_name" name="credit_card_holder_name" placeholder="Zain Munir" pattern="[a-zA-Z ]{4,30}" required>
+    <br>
+    <br>
+    <label for="credit_card_number">Credit Card Number</label>
+    <input type="text" id="credit_card_number" name="credit_card_number" placeholder="1111222233334444" pattern="[0-9]{16}"
+      inputmode="numeric" required>
+    <br>
+    <br>
+    <label for="credit_card_expiration_date">Credit Card Expiry</label>
+    <input type="text" id="credit_card_expiration_date" name="credit_card_expiration_date" placeholder="MM/YY" pattern="(0[1-9]|1[0-2])\/[0-9]{2}" required>
+    <br>
+    <br>
+    <label for="credit_card_cvv">CVV</label>
+    <input type="text" id="credit_card_cvv" name="credit_card_cvv" placeholder="352" pattern="[0-9]{3}" inputmode="numeric" required>
+    <br>
+    <br>
+    <input type="submit" value="Submit" class="btn">
+  </form>
+
+
+  <script>
+    $("#payment").submit(function (event) {
+
+      /* stop form from submitting normally */
+      event.preventDefault();
+
+      /* get the action attribute from the <form action=""> element */
+      var $form = $(this),
+        url = $form.attr('action');
+
+      /* Send the data using post*/
+      var posting = $.post(url, {
+        credit_card_holder_name: $('#credit_card_holder_name').val(),
+        credit_card_number: $('#credit_card_number').val(),
+        credit_card_expiration_date: $('#credit_card_expiration_date').val(),
+        credit_card_cvv: $('#credit_card_cvv').val()
+      });
+
+      /* Display response in alert box */
+      posting.done(function (data) {
+        alert(data.message)
+      });
+      posting.fail(function (error) {
+        alert(error.responseJSON.message)
+      });
+    });
+  </script>
+</body>
+
+</html>
